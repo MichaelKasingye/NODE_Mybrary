@@ -9,9 +9,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+const authorRouter = require('./routes/authors')
 var usersRouter = require('./routes/users');
 const expressLayout = require('express-ejs-layouts');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 var app = express();
 
 
@@ -28,7 +30,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/authors', authorRouter);
 app.use('/users', usersRouter);
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 
 
 let mongoLdb = process.env.mongoLdb;
